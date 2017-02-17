@@ -1,18 +1,14 @@
 'use strict';
 import FirebaseController from './controllers/firebase-controller.js'
 
-class ClassName extends FirebaseController {
+export default class extends FirebaseController {
   constructor() {
-    super();
+    const i2c = require('i2c');
+    let address = 0x10; // set address to 0x10
+    let wire = new i2c(address, {device, '/dev/i2c-1'});
+
+    wire.writeByte(1, err => {
+      console.log("error is ", err);
+    });
   }
-}
-
-
-
-const i2c = require('i2c');
-let address = 0x10; // set address to 0x10
-let wire = new i2c(address, {device, '/dev/i2c-1'});
-
-wire.writeByte(1, err => {
-  console.log("error is ", err);
-});
+};
