@@ -23,7 +23,7 @@
     "url": "https://github.com/AndrewVanardennen/reef-controller/issues"
   },
   "dependencies": {
-    "i2c": "^0.1.8"
+    "i2c": "^0.2.3"
   },
   "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
