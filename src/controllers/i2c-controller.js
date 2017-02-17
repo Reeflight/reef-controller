@@ -7,7 +7,7 @@ export default class {
 
 
   }
-  write(byte){
+  write(byte) {
     wire.writeByte(byte, err => {
       console.log("error is ", err);
     });

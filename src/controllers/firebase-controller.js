@@ -1,5 +1,7 @@
 'use strict';
-import {auth, database} as firebase from "firebase";
+import * as firebase from "firebase";
+const Emitter = require('events');
+const emitter = new Emitter();
 
 export default class FirebaseController {
   constructor() {
@@ -10,5 +12,11 @@ export default class FirebaseController {
       databaseURL: "https://reeflight-fb71e.firebaseio.com"
     };
     firebase.initializeApp(config);
+    emitter.emit('firebase-ready');
+  }
+  on(event, cb) {
+    emitter.on(event, data => {
+      return cb(data);
+    })
   }
 };
