@@ -1,5 +1,6 @@
 'use strict';
 import FirebaseController from './firebase-controller.js';
+import I2cController from './i2c-controller.js';
 
 export default class extends FirebaseController {
   constructor() {
@@ -7,12 +8,9 @@ export default class extends FirebaseController {
     this.start();
   }
   start() {
-    const i2c = require('i2c');
-    let address = 0x10; // set address to 0x10
-    let wire = new i2c(address, {device: '/dev/i2c-1'});
-
-    wire.writeByte(1, err => {
-      console.log("error is ", err);
+    firebase.database.ref('users/XpsE3FKDooeYDJwkxES9JLG8BPZ2/channel').on('value', snapshot => {
+      const data =  snapshot.val();
+      I2cController(data);
     });
   }
 };

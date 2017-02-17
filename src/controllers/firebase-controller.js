@@ -1,5 +1,5 @@
 'use strict';
-const firebase = require('firebase');
+import {auth, database} as firebase from "firebase";
 
 export default class FirebaseController {
   constructor() {
