@@ -4,6 +4,7 @@
   "description": "controlling the light",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/reef-controller.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
