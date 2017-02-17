@@ -4,6 +4,7 @@ const Emitter = require('events');
 
 export default class FirebaseController extends Emitter {
   constructor() {
+    super();
     // Initialize Firebase
     const config = {
       apiKey: "AIzaSyCxBWJTjZ822a_0bxGbTJV3F1dZoQVFo1w",
