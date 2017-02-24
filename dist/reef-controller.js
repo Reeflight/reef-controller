@@ -1,5 +1,6 @@
-import { initializeApp } from 'firebase';
-import * as firebase from 'firebase';
+'use strict';
+
+var firebase = require('firebase');
 
 class FirebaseController {
   constructor() {
@@ -9,7 +10,7 @@ class FirebaseController {
       authDomain: "reeflight-fb71e.firebaseapp.com",
       databaseURL: "https://reeflight-fb71e.firebaseio.com"
     };
-    initializeApp(config);
+    firebase.initializeApp(config);
     global.firebase = firebase;
   }
 
@@ -18,10 +19,13 @@ class FirebaseController {
 const i2c$1 = require('i2c');
 var I2cController = class {
   constructor() {
-    let address = 0x10; // set address to 0x10
+    let address = 0x00; // set address to 0x0F
     try {
       let wire = new i2c$1(address, {device: '/dev/i2c-1'});
-      wire.scan();
+      wire.scan((err, data) => {
+	console.log(data);
+	wire.setAddress(data[0]);
+      });
       this.wire = wire;
     } catch (e) {
       this.wire = undefined;

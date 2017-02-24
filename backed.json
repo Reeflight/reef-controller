@@ -1,7 +1,7 @@
 {
   "src": "src/index.js",
   "dest": "dist/reef-controller.js",
-  "format": "es6",
+  "format": "cjs",
   "babel": {
     "babelrc": false,
     "presets": [
