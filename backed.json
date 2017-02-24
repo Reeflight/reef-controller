@@ -1,0 +1,19 @@
+{
+  "src": "src/index.js",
+  "dest": "dist/reef-controller.js",
+  "format": "es6",
+  "babel": {
+    "babelrc": false,
+    "presets": [
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ]
+    ],
+    "plugins": [
+      "external-helpers"
+    ]
+  }
+}

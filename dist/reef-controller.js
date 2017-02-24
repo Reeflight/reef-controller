@@ -1,6 +1,5 @@
-'use strict';
-
-var firebase = require('firebase');
+import { initializeApp } from 'firebase';
+import * as firebase from 'firebase';
 
 class FirebaseController {
   constructor() {
@@ -10,7 +9,7 @@ class FirebaseController {
       authDomain: "reeflight-fb71e.firebaseapp.com",
       databaseURL: "https://reeflight-fb71e.firebaseio.com"
     };
-    firebase.initializeApp(config);
+    initializeApp(config);
     global.firebase = firebase;
   }
 
@@ -56,3 +55,4 @@ var ReefController = class extends FirebaseController {
 };
 
 new ReefController();
+//# sourceMappingURL=reef-controller.js.map
