@@ -1,7 +1,5 @@
 'use strict';
 import * as firebase from "firebase";
-import PubSubLoader from './../internals/pub-sub-loader.js';
-PubSubLoader();
 export default class FirebaseController {
   constructor() {
     // Initialize Firebase

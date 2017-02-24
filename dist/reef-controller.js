@@ -2,49 +2,6 @@
 
 var firebase = require('firebase');
 
-/**
- * PubSub
- */
-var PubSub = class {
-
-  /**
-   * Creates handlers
-   */
-  constructor() {
-    this.handlers = [];
-  }
-
-  /**
-   * @param {String} event
-   * @param {Method} handler
-   * @param {HTMLElement} context
-   */
-  subscribe(event, handler, context) {
-    if (typeof context === 'undefined') {
-      context = handler;
-    }
-    this.handlers.push({event: event, handler: handler.bind(context)});
-  }
-
-  /**
-   * @param {String} event
-   * @param {String|Number|Boolean|Object|Array} value
-   */
-  publish(event, value) {
-    for (let i = 0; i < this.handlers.length; i++) {
-      if (this.handlers[i].event === event) {
-        this.handlers[i].handler(value, this.handlers[i].oldValue);
-				this.handlers[i].oldValue = value;
-      }
-    }
-  }
-};
-
-var PubSubLoader = () => {
-  global.PubSub = global.PubSub || new PubSub();
-};
-
-PubSubLoader();
 class FirebaseController {
   constructor() {
     // Initialize Firebase
@@ -55,7 +12,6 @@ class FirebaseController {
     };
     firebase.initializeApp(config);
     global.firebase = firebase;
-    // PubSub.publish('firebase.ready', {ready: true});
   }
 
 }
@@ -74,6 +30,7 @@ var I2cController = class {
     }
   }
   write(byte) {
+    console.log('writing byte', byte);
     if (this.wire)
       this.wire.writeByte(byte, err => {
         console.log("error is ", err);
@@ -82,18 +39,15 @@ var I2cController = class {
 };
 
 const i2c = new I2cController();
-PubSubLoader();
 var ReefController = class extends FirebaseController {
   constructor() {
     super();
-    // PubSub.subscribe('firebase.ready', this.start);
     this.start();
   }
   get firebase() {
     return global.firebase;
   }
   start() {
-    console.log('running');
     this.firebase.database().ref('users/XpsE3FKDooeYDJwkxES9JLG8BPZ2/channel/').on('value', snapshot => {
       const data = snapshot.val();
       i2c.write(data);
