@@ -1,5 +1,8 @@
 'use strict';
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var Backed = _interopDefault(require('backed'));
 var firebase = require('firebase');
 
 class FirebaseController {
@@ -16,15 +19,15 @@ class FirebaseController {
 
 }
 
-const i2c$1 = require('i2c');
+const I2c$1 = require('i2c');
 var I2cController = class {
   constructor() {
-    let address = 0x00; // set address to 0x0F
+    let address = 0x0F; // set address to 0x0F
     try {
-      let wire = new i2c$1(address, {device: '/dev/i2c-1'});
+      let wire = new I2c$1(address, {device: '/dev/i2c-1'});
       wire.scan((err, data) => {
-	console.log(data);
-	wire.setAddress(data[0]);
+	      // console.log(data);
+	      wire.setAddress(data[0]);
       });
       this.wire = wire;
     } catch (e) {
@@ -32,31 +35,54 @@ var I2cController = class {
       console.warn('RPI not found on address: ' + this.address);
     }
   }
-  write(byte) {
-    console.log('writing byte', byte);
+  write(byte0, byte1) {
+    // console.log('writing byte', byte0, ' ', byte1);
+    
+    
     if (this.wire)
-      this.wire.writeByte(byte, err => {
-        console.log("error is ", err);
+      this.wire.write([byte0, byte1], err => {
+        // console.log("error is ", err);
       });
   }
 };
 
-const i2c = new I2cController();
-var ReefController = class extends FirebaseController {
-  constructor() {
+const I2c = new I2cController();
+
+var ChannelController = Backed(class ChannelController extends FirebaseController {
+
+  // static get properties() {
+  //   return {
+  //     data: {
+  //
+  //     }
+  //   }
+  // }
+
+  constructor(channels=4) {
     super();
-    this.start();
+    
+    for (let i = 1; i <= channels; i++) {
+      let url = `users/XpsE3FKDooeYDJwkxES9JLG8BPZ2/channel${i}`;
+      
+      this.firebase.database().ref(url).on('value', snapshot => {
+        I2c.write(i, snapshot.val());
+      });
+    }
+    
   }
+
+
   get firebase() {
     return global.firebase;
   }
-  start() {
-    this.firebase.database().ref('users/XpsE3FKDooeYDJwkxES9JLG8BPZ2/channel/').on('value', snapshot => {
-      const data = snapshot.val();
-      i2c.write(data);
-    });
+
+
+});
+
+var ReefController = class extends ChannelController {
+  constructor() {
+    super();
   }
 };
 
 new ReefController();
-//# sourceMappingURL=reef-controller.js.map

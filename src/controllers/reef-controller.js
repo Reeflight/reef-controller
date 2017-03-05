@@ -1,7 +1,8 @@
 'use strict';
-import DataController from './data-controller.js'
-export default class extends DataController {
+import ChannelController from './channel-controller.js'
+import Backed from 'backed';
+export default class extends ChannelController {
   constructor() {
     super();
   }
-};
+}

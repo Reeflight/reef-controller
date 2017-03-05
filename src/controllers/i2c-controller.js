@@ -1,13 +1,13 @@
 'use strict';
-const i2c = require('i2c');
+const I2c = require('i2c');
 export default class {
   constructor() {
-    let address = 0x00; // set address to 0x0F
+    let address = 0x0F; // set address to 0x0F
     try {
-      let wire = new i2c(address, {device: '/dev/i2c-1'});
+      let wire = new I2c(address, {device: '/dev/i2c-1'});
       wire.scan((err, data) => {
-	console.log(data);
-	wire.setAddress(data[0]);
+	      // console.log(data);
+	      wire.setAddress(data[0]);
       });
       this.wire = wire;
     } catch (e) {
@@ -15,11 +15,13 @@ export default class {
       console.warn('RPI not found on address: ' + this.address);
     }
   }
-  write(byte) {
-    console.log('writing byte', byte);
+  write(byte0, byte1) {
+    // console.log('writing byte', byte0, ' ', byte1);
+    
+    
     if (this.wire)
-      this.wire.writeByte(byte, err => {
-        console.log("error is ", err);
+      this.wire.write([byte0, byte1], err => {
+        // console.log("error is ", err);
       });
   }
 }

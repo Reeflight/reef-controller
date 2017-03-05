@@ -1,6 +1,10 @@
 {
-  "src": "src/index.js",
-  "dest": "dist/reef-controller.js",
+  "bundles": [
+    {
+      "src": "src/index.js",
+      "dest": "dist/reef-controller.js"
+    }
+  ],
   "format": "cjs",
   "babel": {
     "babelrc": false,
@@ -15,5 +19,9 @@
     "plugins": [
       "external-helpers"
     ]
+  },
+  "server": {
+    "use": []
   }
+  
 }
