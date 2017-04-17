@@ -1,5 +1,6 @@
-import { initializeApp } from 'firebase';
-import * as firebase$1 from 'firebase';
+'use strict';
+
+var firebase$1 = require('firebase');
 
 class FirebaseController {
   constructor() {
@@ -8,7 +9,7 @@ class FirebaseController {
       authDomain: "reeflight-fb71e.firebaseapp.com",
       databaseURL: "https://reeflight-fb71e.firebaseio.com"
     };
-    initializeApp(config);
+    firebase$1.initializeApp(config);
     global.firebase = firebase$1;
   }
 }

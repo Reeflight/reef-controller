@@ -1,6 +1,6 @@
 {
   "name": "reef-controller",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "controlling the light",
   "main": "dist/reef-controller.js",
   "scripts": {
@@ -32,18 +32,18 @@
     "bundles": [
       {
         "src": "src/index.js",
-        "dest": "dist/reef-controller.js"
+        "dest": "dist/reef-controller.js",
+        "format": "cjs",
+        "babel": {
+          "presets": [
+            "es2016"
+          ],
+          "plugins": [
+            "external-helpers"
+          ]
+        }
       }
     ],
-    "format": "cjs",
-    "babel": {
-      "presets": [
-        "es2016"
-      ],
-      "plugins": [
-        "external-helpers"
-      ]
-    },
     "server": {
       "use": []
     }
