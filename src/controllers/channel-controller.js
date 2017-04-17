@@ -1,10 +1,9 @@
 'use strict';
-import Backed from 'backed';
 import FirebaseController from './firebase-controller.js';
 import I2cController from './i2c-controller.js';
 const I2c = new I2cController();
 
-export default Backed(class ChannelController extends FirebaseController {
+export default class ChannelController extends FirebaseController {
 
   // static get properties() {
   //   return {
@@ -31,5 +30,5 @@ export default Backed(class ChannelController extends FirebaseController {
     
     
   }
-});
+}
 
