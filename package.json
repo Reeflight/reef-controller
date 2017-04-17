@@ -2,7 +2,7 @@
   "name": "reef-controller",
   "version": "0.0.1",
   "description": "controlling the light",
-  "main": "index.js",
+  "main": "dist/reef-controller.js",
   "scripts": {
     "start": "node dist/reef-controller.js",
     "test": "echo \"Error: no test specified\" && exit 1"

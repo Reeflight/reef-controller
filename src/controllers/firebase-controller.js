@@ -12,4 +12,4 @@ export default class FirebaseController {
     global.firebase = firebase;
   }
 
-};
+}

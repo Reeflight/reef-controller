@@ -8,9 +8,4 @@ export default Backed(class extends FirebaseController {
     super();
     
   }
-  
-  get firebase() {
-    return global.firebase;
-  }
-  
 });
