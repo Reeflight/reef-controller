@@ -23,6 +23,7 @@
     "url": "https://github.com/reeflight/reef-controller/issues"
   },
   "dependencies": {
+    "backed-logger": "^1.0.1",
     "i2c": "^0.2.3"
   },
   "devDependencies": {
@@ -44,9 +45,13 @@
         }
       }
     ],
+    "sources": [{
+      "src": "src/workers/*.js",
+      "dest": "dist"
+    }],
     "server": {
-      "use": []
+      "use": [],
+      "demo": "dist"
     }
-    
   }
 }

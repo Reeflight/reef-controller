@@ -2,10 +2,9 @@
 const I2c = require('i2c');
 export default class {
   constructor() {
-    let address = 0x0F; // set address to 0x0F
+    let address = 0x1F; // set address to 0x0F
     try {
-      let wire = new I2c(address, {device: '/dev/i2c-1'});
-      this.wire = wire;
+      this.setWireAddress(address);
     } catch (e) {
       this.wire = undefined;
       console.warn('RPI not found on address: ' + this.address);
@@ -19,5 +18,10 @@ export default class {
 
          //console.log("error is ", err);
       });
+  }
+  setWireAddress(address) {
+    console.log('set address:', address);
+    let wire = new I2c(address, {device: '/dev/i2c-1'});
+    this.wire = wire;
   }
 }
