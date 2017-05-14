@@ -19,28 +19,8 @@ class FirebaseController {
   }
 }
 
-const I2c$1 = require('i2c');
-var I2cController = class {
-  constructor() {
-    let address = 0x1F;
-    try {
-      this.setWireAddress(address);
-    } catch (e) {
-      this.wire = undefined;
-      console.warn('RPI not found on address: ' + this.address);
-    }
-  }
-  write(byte0, byte1) {
-    if (this.wire) this.wire.write([byte0, byte1], err => {
-    });
-  }
-  setWireAddress(address) {
-    console.log('set address:', address);
-    let wire = new I2c$1(address, { device: '/dev/i2c-1' });
-    this.wire = wire;
-  }
-};
-
+let running = false;
+let worker;
 class Tasks {
   constructor() {
     this.tasks = [];
@@ -49,26 +29,36 @@ class Tasks {
     this.runWorker(task);
   }
   runWorker(task) {
-    const worker = child_process.fork(path.join(__dirname, 'workers/profile-worker.js'));
+    if (running) {
+      worker.send({ type: 'kill' });
+    }
+    worker = child_process.fork(path.join(__dirname, 'workers/profile-worker.js'));
     worker.on('message', ({ type, data }) => {
       if (type === 'done') {}
     });
     worker.send({ type: 'start', data: task });
+    running = true;
   }
 }
 var tasksController = new Tasks();
 
-const I2c = new I2cController();
 class ChannelController extends FirebaseController {
   constructor(channels = 3) {
     super();
     async function gen(_this) {
       try {
         const udid = 'uid01';
-        const url = `users/XpsE3FKDooeYDJwkxES9JLG8BPZ2`;
-        const { lanes, profileId } = await _this.getFireData(`${url}/devices/${udid}`);
-        const profile = await _this.getFireData(`${url}/profiles/${profileId}`);
-        tasksController.add({ profile: profile, uid: '01' });
+        const url = `users/Plr4JUix6xPxWmai0PlDRL34qJ32`;
+        const ref = url => {
+          return firebase.database().ref(url);
+        };
+        ref(`${url}/devices/${udid}`).on('value', snapshot => {
+          let { lanes, profileId } = snapshot.val();
+          ref(`${url}/profiles/${profileId}`).on('value', snapshot => {
+            let profile = snapshot.val();
+            tasksController.add({ profile: profile, uid: '01' });
+          });
+        });
       } catch (error) {
         throw console.error(error);
       }
